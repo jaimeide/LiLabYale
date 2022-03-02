@@ -1,2 +1,2 @@
-# Yale
-research related to Yale
+# LiLabYale
+Li Lab at Yale University
