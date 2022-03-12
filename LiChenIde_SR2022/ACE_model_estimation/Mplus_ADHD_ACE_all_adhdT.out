@@ -1,0 +1,692 @@
+Mplus VERSION 8.6 DEMO (Mac)
+MUTHEN & MUTHEN
+03/11/2022   5:15 PM
+
+INPUT INSTRUCTIONS
+
+  ! ========================================================================
+  !     Copyright (c) 2020, Yale University, Li Lab
+  !                     All Rights Reserved
+  ! ========================================================================
+  ! @DATE (created)       : 12/19/2021
+  ! @DATE (last modified) : 03/10/2022
+  ! @AUTHOR      : Yu Chen
+  !                yu.chen.yc838@yale.edu
+  ! ========================================================================
+
+  ! This is a script for estimating the univariate ACE model on ADHD t score for girls+boys
+  TITLE:     ACE Twin Model for ADHDt (All Data ADHDt)
+
+  ! Covariates (e.g., age, sex, race, and study site) have been regressed out before running
+  ! For regional GMVs, scanner model and TIV have been regressed out as additional covariate
+  ! The input data are residual scores.
+
+  DATA:      FILE = twinData_all_residual_R1.csv;
+
+  ! Variable names are listed.
+
+  ! zyg = zygosity; adhdt1 = adhdt score of twin A; adhdt2 = adhdt score of twin B.
+  ! gmvposi = 'mask_pos_adhdt_ALL'; gmvnega = 'mask_neg_adhdt_ALL';
+  ! girlexc = 'mask_neg_adhdt_Girls_excl'; boyexc = 'mask_neg_adhdt_Boys_excl';
+  ! cau = bilateral caudate; put = bilateral putamen; pal = bilateral globus pallidum;
+  ! lcau = left caudate; lput = left putamen; lpal = left globus pallidum;
+  ! rcau = right caudate; rput = right putamen; rpal = right globus pallidum;
+
+  VARIABLE:  NAMES = zyg adhdt1 adhdt2 gmvposi1 gmvposi2 gmvnega1 gmvnega2
+                      girlexc1 girlexc2 boyexc1 boyexc2 cau1 cau2
+                      lcau1 lcau2 rcau1 rcau2 put1 put2 lput1 lput2
+                      rput1 rput2 pal1 pal2 lpal1 lpal2 rpal1 rpal2;
+
+  ! ADHD t scores of twin pairs are used. The variables of interest can be selected from the
+  USEVARIABLES = adhdt1 adhdt2;
+
+  ! Zygosity group
+  GROUP = zyg(1=mz 2=dz);
+
+  ! ACE model estimation
+  ANALYSIS:  TYPE = GENERAL;
+  MODEL:
+  MODEL mz:
+  [adhdt1](m); [adhdt2](m);
+  adhdt1(v); adhdt2(v);
+  adhdt1 with adhdt2(covmz);
+  MODEL dz:
+  [adhdt1](m); [adhdt2](m);
+  adhdt1(v); adhdt2(v);
+  adhdt1 with adhdt2(covdz);
+  model constraint:
+      new(a* c* e*);
+      v = a**2 + c**2 + e**2;
+      covmz = a**2 + c**2;
+      covdz = 0.5*a**2 + c**2;
+      new(pa pc pe);
+      pa = (a**2)/(a**2 + c**2 + e**2);
+      pc = (c**2)/(a**2 + c**2 + e**2);
+      pe = (e**2)/(a**2 + c**2 + e**2);
+  OUTPUT: SAMP RES STAND CINT;
+
+
+
+*** WARNING
+  Input line exceeded 90 characters. Some input may be truncated.
+  ! For regional GMVs, scanner model and TIV have been regressed out as additional covariates
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables in the model.
+  Check that this is what is intended.
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+ACE Twin Model for ADHDt (All Data ADHDt)
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 2
+Number of observations
+   Group MZ                                                    317
+   Group DZ                                                   1413
+   Total sample size                                          1730
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   ADHDT1      ADHDT2
+
+Variables with special functions
+
+  Grouping variable     ZYG
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+
+Input data file(s)
+  twinData_all_residual_R1.csv
+
+Input data format  FREE
+
+
+SAMPLE STATISTICS
+
+
+     SAMPLE STATISTICS FOR MZ
+
+
+           Means
+              ADHDT1        ADHDT2
+              ________      ________
+               -0.554        -0.595
+
+
+           Covariances
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1        19.550
+ ADHDT2         9.919        14.419
+
+
+           Correlations
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1         1.000
+ ADHDT2         0.591         1.000
+
+
+     SAMPLE STATISTICS FOR DZ
+
+
+           Means
+              ADHDT1        ADHDT2
+              ________      ________
+                0.124         0.134
+
+
+           Covariances
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1        28.171
+ ADHDT2         5.500        22.301
+
+
+           Correlations
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1         1.000
+ ADHDT2         0.219         1.000
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS FOR MZ
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     ADHDT1               -0.554       2.729      -4.126    0.32%      -3.113     -2.110     -2.010
+             317.000      19.550       7.834      21.927    0.32%      -1.950     -0.007
+     ADHDT2               -0.595       3.161      -3.248    0.32%      -2.490     -2.152     -1.926
+             317.000      14.419      11.113      19.513    0.32%      -1.768     -0.227
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS FOR DZ
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     ADHDT1                0.124       2.542      -4.133    0.07%      -3.088     -2.075     -1.991
+            1413.000      28.171       6.760      28.022    0.07%      -1.915      2.851
+     ADHDT2                0.134       2.509      -3.437    0.07%      -2.568     -2.127     -1.893
+            1413.000      22.301       7.003      26.639    0.07%      -1.589      3.001
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        4
+
+Loglikelihood
+
+          H0 Value                      -10297.074
+          H1 Value                      -10252.712
+
+Information Criteria
+
+          Akaike (AIC)                   20602.148
+          Bayesian (BIC)                 20623.972
+          Sample-Size Adjusted BIC       20611.264
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                             88.725
+          Degrees of Freedom                     6
+          P-Value                           0.0000
+
+Chi-Square Contribution From Each Group
+
+          MZ                                52.004
+          DZ                                36.720
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.126
+          90 Percent C.I.                    0.104  0.150
+          Probability RMSEA <= .05           0.000
+
+CFI/TLI
+
+          CFI                                0.594
+          TLI                                0.865
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                            205.833
+          Degrees of Freedom                     2
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.163
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Group MZ
+
+ ADHDT1   WITH
+    ADHDT2            14.401      1.046     13.768      0.000
+
+ Means
+    ADHDT1             0.020      0.097      0.210      0.834
+    ADHDT2             0.020      0.097      0.210      0.834
+
+ Variances
+    ADHDT1            24.318      0.636     38.214      0.000
+    ADHDT2            24.318      0.636     38.214      0.000
+
+Group DZ
+
+ ADHDT1   WITH
+    ADHDT2             7.200      0.523     13.768      0.000
+
+ Means
+    ADHDT1             0.020      0.097      0.210      0.834
+    ADHDT2             0.020      0.097      0.210      0.834
+
+ Variances
+    ADHDT1            24.318      0.636     38.214      0.000
+    ADHDT2            24.318      0.636     38.214      0.000
+
+New/Additional Parameters
+    A                  3.795      0.138     27.536      0.000
+    C                  0.001      0.382      0.001      0.999
+    E                  3.149      0.123     25.645      0.000
+    PA                 0.592      0.034     17.180      0.000
+    PC                 0.000      0.000      0.001      0.999
+    PE                 0.408      0.034     11.831      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.115E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Group MZ
+
+ ADHDT1   WITH
+    ADHDT2             0.592      0.034     17.180      0.000
+
+ Means
+    ADHDT1             0.004      0.020      0.210      0.834
+    ADHDT2             0.004      0.020      0.210      0.834
+
+ Variances
+    ADHDT1             1.000      0.000    999.000    999.000
+    ADHDT2             1.000      0.000    999.000    999.000
+
+Group DZ
+
+ ADHDT1   WITH
+    ADHDT2             0.296      0.017     17.180      0.000
+
+ Means
+    ADHDT1             0.004      0.020      0.210      0.834
+    ADHDT2             0.004      0.020      0.210      0.834
+
+ Variances
+    ADHDT1             1.000      0.000    999.000    999.000
+    ADHDT2             1.000      0.000    999.000    999.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Group MZ
+
+ ADHDT1   WITH
+    ADHDT2             0.592      0.034     17.180      0.000
+
+ Means
+    ADHDT1             0.004      0.020      0.210      0.834
+    ADHDT2             0.004      0.020      0.210      0.834
+
+ Variances
+    ADHDT1             1.000      0.000    999.000    999.000
+    ADHDT2             1.000      0.000    999.000    999.000
+
+Group DZ
+
+ ADHDT1   WITH
+    ADHDT2             0.296      0.017     17.180      0.000
+
+ Means
+    ADHDT1             0.004      0.020      0.210      0.834
+    ADHDT2             0.004      0.020      0.210      0.834
+
+ Variances
+    ADHDT1             1.000      0.000    999.000    999.000
+    ADHDT2             1.000      0.000    999.000    999.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Group MZ
+
+ ADHDT1   WITH
+    ADHDT2            14.401      1.046     13.768      0.000
+
+ Means
+    ADHDT1             0.020      0.097      0.210      0.834
+    ADHDT2             0.020      0.097      0.210      0.834
+
+ Variances
+    ADHDT1            24.318      0.636     38.214      0.000
+    ADHDT2            24.318      0.636     38.214      0.000
+
+Group DZ
+
+ ADHDT1   WITH
+    ADHDT2             7.200      0.523     13.768      0.000
+
+ Means
+    ADHDT1             0.020      0.097      0.210      0.834
+    ADHDT2             0.020      0.097      0.210      0.834
+
+ Variances
+    ADHDT1            24.318      0.636     38.214      0.000
+    ADHDT2            24.318      0.636     38.214      0.000
+
+
+R-SQUARE
+
+Group MZ
+
+Group DZ
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Group MZ
+
+ ADHDT1   WITH
+    ADHDT2          11.707      12.351      12.680      14.401      16.122      16.451      17.095
+
+ Means
+    ADHDT1          -0.230      -0.170      -0.139       0.020       0.180       0.211       0.271
+    ADHDT2          -0.230      -0.170      -0.139       0.020       0.180       0.211       0.271
+
+ Variances
+    ADHDT1          22.679      23.071      23.271      24.318      25.365      25.565      25.957
+    ADHDT2          22.679      23.071      23.271      24.318      25.365      25.565      25.957
+
+Group DZ
+
+ ADHDT1   WITH
+    ADHDT2           5.853       6.175       6.340       7.200       8.061       8.226       8.548
+
+ Means
+    ADHDT1          -0.230      -0.170      -0.139       0.020       0.180       0.211       0.271
+    ADHDT2          -0.230      -0.170      -0.139       0.020       0.180       0.211       0.271
+
+ Variances
+    ADHDT1          22.679      23.071      23.271      24.318      25.365      25.565      25.957
+    ADHDT2          22.679      23.071      23.271      24.318      25.365      25.565      25.957
+
+New/Additional Parameters
+    A                3.440       3.525       3.568       3.795       4.022       4.065       4.150
+    C               -0.983      -0.748      -0.628       0.001       0.629       0.749       0.984
+    E                2.833       2.908       2.947       3.149       3.351       3.390       3.465
+    PA               0.503       0.525       0.535       0.592       0.649       0.660       0.681
+    PC               0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    PE               0.319       0.340       0.351       0.408       0.465       0.475       0.497
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Group MZ
+
+ ADHDT1   WITH
+    ADHDT2           0.503       0.525       0.535       0.592       0.649       0.660       0.681
+
+ Means
+    ADHDT1          -0.047      -0.034      -0.028       0.004       0.037       0.043       0.055
+    ADHDT2          -0.047      -0.034      -0.028       0.004       0.037       0.043       0.055
+
+ Variances
+    ADHDT1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    ADHDT2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Group DZ
+
+ ADHDT1   WITH
+    ADHDT2           0.252       0.262       0.268       0.296       0.324       0.330       0.340
+
+ Means
+    ADHDT1          -0.047      -0.034      -0.028       0.004       0.037       0.043       0.055
+    ADHDT2          -0.047      -0.034      -0.028       0.004       0.037       0.043       0.055
+
+ Variances
+    ADHDT1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    ADHDT2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Group MZ
+
+ ADHDT1   WITH
+    ADHDT2           0.503       0.525       0.535       0.592       0.649       0.660       0.681
+
+ Means
+    ADHDT1          -0.047      -0.034      -0.028       0.004       0.037       0.043       0.055
+    ADHDT2          -0.047      -0.034      -0.028       0.004       0.037       0.043       0.055
+
+ Variances
+    ADHDT1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    ADHDT2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Group DZ
+
+ ADHDT1   WITH
+    ADHDT2           0.252       0.262       0.268       0.296       0.324       0.330       0.340
+
+ Means
+    ADHDT1          -0.047      -0.034      -0.028       0.004       0.037       0.043       0.055
+    ADHDT2          -0.047      -0.034      -0.028       0.004       0.037       0.043       0.055
+
+ Variances
+    ADHDT1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    ADHDT2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Group MZ
+
+ ADHDT1   WITH
+    ADHDT2          11.707      12.351      12.680      14.401      16.122      16.451      17.095
+
+ Means
+    ADHDT1          -0.230      -0.170      -0.139       0.020       0.180       0.211       0.271
+    ADHDT2          -0.230      -0.170      -0.139       0.020       0.180       0.211       0.271
+
+ Variances
+    ADHDT1          22.679      23.071      23.271      24.318      25.365      25.565      25.957
+    ADHDT2          22.679      23.071      23.271      24.318      25.365      25.565      25.957
+
+Group DZ
+
+ ADHDT1   WITH
+    ADHDT2           5.853       6.175       6.340       7.200       8.061       8.226       8.548
+
+ Means
+    ADHDT1          -0.230      -0.170      -0.139       0.020       0.180       0.211       0.271
+    ADHDT2          -0.230      -0.170      -0.139       0.020       0.180       0.211       0.271
+
+ Variances
+    ADHDT1          22.679      23.071      23.271      24.318      25.365      25.565      25.957
+    ADHDT2          22.679      23.071      23.271      24.318      25.365      25.565      25.957
+
+
+RESIDUAL OUTPUT
+
+
+     ESTIMATED MODEL AND RESIDUALS (OBSERVED - ESTIMATED) FOR MZ
+
+
+           Model Estimated Means
+              ADHDT1        ADHDT2
+              ________      ________
+                0.020         0.020
+
+
+           Residuals for Means
+              ADHDT1        ADHDT2
+              ________      ________
+               -0.575        -0.615
+
+
+           Standardized Residuals (z-scores) for Means
+              ADHDT1        ADHDT2
+              ________      ________
+               -2.514        -3.241
+
+
+           Normalized Residuals for Means
+              ADHDT1        ADHDT2
+              ________      ________
+               -2.314        -2.886
+
+
+           Model Estimated Covariances
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1        24.318
+ ADHDT2        14.401        24.318
+
+
+           Model Estimated Correlations
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1         1.000
+ ADHDT2         0.592         1.000
+
+
+           Residuals for Covariances
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1        -4.768
+ ADHDT2        -4.482        -9.900
+
+
+           Residuals for Correlations
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1         0.000
+ ADHDT2        -0.001         0.000
+
+
+           Standardized Residuals (z-scores) for Covariances
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1        -3.366
+ ADHDT2       -13.796       -10.397
+
+
+           Normalized Residuals for Covariances
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1        -3.071
+ ADHDT2        -4.092        -8.644
+
+
+     ESTIMATED MODEL AND RESIDUALS (OBSERVED - ESTIMATED) FOR DZ
+
+
+           Model Estimated Means
+              ADHDT1        ADHDT2
+              ________      ________
+                0.020         0.020
+
+
+           Residuals for Means
+              ADHDT1        ADHDT2
+              ________      ________
+                0.104         0.113
+
+
+           Standardized Residuals (z-scores) for Means
+              ADHDT1        ADHDT2
+              ________      ________
+                1.014         1.419
+
+
+           Normalized Residuals for Means
+              ADHDT1        ADHDT2
+              ________      ________
+                0.736         0.900
+
+
+           Model Estimated Covariances
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1        24.318
+ ADHDT2         7.200        24.318
+
+
+           Model Estimated Correlations
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1         1.000
+ ADHDT2         0.296         1.000
+
+
+           Residuals for Covariances
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1         3.853
+ ADHDT2        -1.700        -2.017
+
+
+           Residuals for Correlations
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1         0.000
+ ADHDT2        -0.077         0.000
+
+
+           Standardized Residuals (z-scores) for Covariances
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1         4.546
+ ADHDT2        -3.875        -3.689
+
+
+           Normalized Residuals for Covariances
+              ADHDT1        ADHDT2
+              ________      ________
+ ADHDT1         3.635
+ ADHDT2        -2.490        -2.404
+
+
+     Beginning Time:  17:15:43
+        Ending Time:  17:15:44
+       Elapsed Time:  00:00:01
+
+
+Mplus VERSION 8.6 DEMO (Mac) has the following limitations:
+  Maximum number of dependent variables: 6
+  Maximum number of independent variables: 2
+  Maximum number of between variables: 2
+  Maximum number of continuous latent variables in time series analysis: 2
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen
