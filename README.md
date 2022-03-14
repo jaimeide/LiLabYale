@@ -8,4 +8,4 @@ LiLabYale is a research laboratory focused on systems neuroscience, led by Prof.
 
 a. Pediatric template constructed from ABCD dataset (ABCD1000)
 
-b. Scripts used in publications
+b. Scripts by publications
