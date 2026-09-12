@@ -1,11 +1,49 @@
 # LiLabYale
 
-## 1. Introduction
+Computational and neuroimaging research code from the Li Lab at Yale School of Medicine.
 
-LiLabYale is a research laboratory focused on systems neuroscience, led by Prof. Chiang-shan R. Li at Yale Univeristy School of Medicine. By combining psychophysics, computational modeling and brain imaging, we explore the circuit mechanisms of a multitude of cognitive constructs, including self control, affect regulation, and reward-related processes. The primary goals are to understand systems neural bases of these cognitive processes and how these neural processes contribute to the etiology of psychiatric and neurological illnesses, with a specific emphasis on addiction.
+## Table of Contents
 
-## 2. Content
+- [Introduction](#introduction)
+- [Repository Contents](#repository-contents)
+- [Usage](#usage)
+- [Citation](#citation)
+- [Contact](#contact)
+- [License](#license)
 
-a. Pediatric template constructed from ABCD dataset (ABCD1000)
+## Introduction
 
-b. Scripts by publications
+LiLabYale is the research repository of the Li Lab, a systems neuroscience laboratory led by Prof. Chiang-shan R. Li at Yale University School of Medicine. The lab combines psychophysics, computational modeling, and brain imaging to study the circuit mechanisms underlying cognitive constructs such as self-control, affect regulation, and reward-related processing.
+
+Our broader goal is to understand the neural systems supporting these processes and how their dysfunction contributes to psychiatric and neurological illness, with a particular focus on addiction.
+
+This top-level README is an entry point — each subfolder below has its own README with the setup instructions, dependencies, and citation specific to that project.
+
+## Repository Contents
+
+| Folder | Description |
+|---|---|
+| [`pediatric_template_ABCD1000/`](./pediatric_template_ABCD1000) | Pediatric brain template constructed from the ABCD Study dataset (N=1000) |
+| []`publications/`] (./publications) | Analysis and modeling scripts, one subfolder per publication |
+
+
+## Usage
+
+Requirements and setup are project-specific (some code is MATLAB, some Python) — see the README inside each folder for exact instructions.
+
+## Citation
+
+Citation is handled per project:
+- **Pediatric template (ABCD1000):** see the [template README](./pediatric_template_ABCD1000) for the correct citation.
+- **Publication scripts:** cite the corresponding paper listed in that publication's folder.
+
+## Contact
+
+- **PI:** Chiang-shan R. Li ([chiang-shan.li@yale.edu](mailto:chiang-shan.li@yale.edu))
+- **Maintainer:** Jaime Ide ([jaime.ide@yale.edu](mailto:jaime.ide@yale.edu))
+
+Questions or issues with the code are also welcome as a GitHub issue.
+
+## License
+
+This repository is released under the [MIT License](./LICENSE). We ask that users acknowledge the source and cite the relevant publication(s) or template when reusing this code.

@@ -1,0 +1,60 @@
+! ========================================================================
+!     Copyright (c) 2020, Yale University, Li Lab
+!                     All Rights Reserved
+! ========================================================================
+! @DATE (created)       : 12/19/2021
+! @DATE (last modified) : 03/10/2022
+! @AUTHOR      : Yu Chen
+!                yu.chen.yc838@yale.edu
+! ========================================================================
+
+! This is a script for estimating the univariate ACE model on ADHD t score for girls+boys
+TITLE:     ACE Twin Model for ADHDt (All Data ADHDt)
+
+! Covariates (e.g., age, sex, race, and study site) have been regressed out before running ACE models. 
+! For regional GMVs, scanner model and TIV have been regressed out as additional covariates.
+! The input data are residual scores.  
+
+DATA:      FILE = twinData_all_residual_R1.csv;
+
+! Variable names are listed.
+
+! zyg = zygosity; adhdt1 = adhdt score of twin A; adhdt2 = adhdt score of twin B.
+! gmvposi = 'mask_pos_adhdt_ALL'; gmvnega = 'mask_neg_adhdt_ALL';
+! girlexc = 'mask_neg_adhdt_Girls_excl'; boyexc = 'mask_neg_adhdt_Boys_excl';
+! cau = bilateral caudate; put = bilateral putamen; pal = bilateral globus pallidum;
+! lcau = left caudate; lput = left putamen; lpal = left globus pallidum;
+! rcau = right caudate; rput = right putamen; rpal = right globus pallidum;
+
+VARIABLE:  NAMES = zyg adhdt1 adhdt2 gmvposi1 gmvposi2 gmvnega1 gmvnega2 
+                    girlexc1 girlexc2 boyexc1 boyexc2 cau1 cau2
+                    lcau1 lcau2 rcau1 rcau2 put1 put2 lput1 lput2 
+                    rput1 rput2 pal1 pal2 lpal1 lpal2 rpal1 rpal2;
+                    
+! ADHD t scores of twin pairs are used. The variables of interest can be selected from the variable list and run the ACE model.
+USEVARIABLES = adhdt1 adhdt2;
+
+! Zygosity group
+GROUP = zyg(1=mz 2=dz);
+
+! ACE model estimation
+ANALYSIS:  TYPE = GENERAL;
+MODEL:
+MODEL mz:
+[adhdt1](m); [adhdt2](m);
+adhdt1(v); adhdt2(v);                                    
+adhdt1 with adhdt2(covmz); 
+MODEL dz:               
+[adhdt1](m); [adhdt2](m);
+adhdt1(v); adhdt2(v);
+adhdt1 with adhdt2(covdz);
+model constraint:
+    new(a* c* e*);      
+    v = a**2 + c**2 + e**2;
+    covmz = a**2 + c**2;
+    covdz = 0.5*a**2 + c**2;
+    new(pa pc pe);
+    pa = (a**2)/(a**2 + c**2 + e**2);
+    pc = (c**2)/(a**2 + c**2 + e**2);
+    pe = (e**2)/(a**2 + c**2 + e**2);
+OUTPUT: SAMP RES STAND CINT;
