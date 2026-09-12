@@ -5,6 +5,6 @@ In order to perform voxel-based morphometry with appropriate templates, we const
 
 ## Reference
 
-Li, C.S., Chen, Y., Ide, J.S. Gray Matter Volumetric Correlates of Attention Deficit and Hyperactivity Traits in Emerging Adolescents. (under review) 
+Li, C.S., Chen, Y., Ide, J.S. Gray matter volumetric correlates of attention deficit and hyperactivity traits in emerging adolescents. *Scientific Reports* **12**, 11367 (2022). https://doi.org/10.1038/s41598-022-15124-7
 
-  
+[Read the paper](https://www.nature.com/articles/s41598-022-15124-7)
