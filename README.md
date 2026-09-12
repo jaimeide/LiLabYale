@@ -24,7 +24,7 @@ This top-level README is an entry point — each subfolder below has its own REA
 | Folder | Description |
 |---|---|
 | [`pediatric_template_ABCD1000/`](./pediatric_template_ABCD1000) | Pediatric brain template constructed from the ABCD Study dataset (N=1000) |
-| [`publications/`] (./publications) | Analysis and modeling scripts, one subfolder per publication |
+| [`publications/`](./publications) | Analysis and modeling scripts, one subfolder per publication |
 
 
 ## Usage
