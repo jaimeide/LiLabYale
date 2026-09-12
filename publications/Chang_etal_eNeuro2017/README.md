@@ -43,8 +43,6 @@ For each subject, the parameters are grid-searched to maximize the Pearson corre
 
 - **P(stop) is causally aligned to avoid leakage:** the belief used to predict RT on trial *t* is the belief entering trial *t* (before that trial's outcome is observed), not one that's already seen it.
 - **Best fit is currently selected by raw correlation (`fitCorr_RT`), not R².** A strong negative correlation could lose out to a weak positive one under this convention — worth deciding deliberately if you extend the parameter range.
-- **`getMAPest` (in `rdist_update.m`) has a minor off-by-one** in its denominator (divides by `length(rdist)` instead of `length(rdist)-1`), causing a small systematic bias in the MAP estimate. This doesn't affect the results here since `esttype='bayes'` is what's used, but would matter if switched to `'map'`.
-- **`dbstop if error`** in `ji_seqeff_get_pstop_perror.m` sets debug-on-error for the whole MATLAB session (not scoped to the function) — worth removing if sharing this code, since it changes the recipient's session behavior.
 
 ## Citation
 
